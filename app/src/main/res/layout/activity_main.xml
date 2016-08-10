@@ -9,6 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cgifederal.ice_helloworld.MainActivity">
 
+    <fragment
+        android:id="@+id/map"
+        class = "com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/pushButton" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,15 +29,14 @@
         android:layout_height="wrap_content"
         android:text="Push to Parse"
         android:id="@+id/pushButton"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Read From Parse"
         android:id="@+id/readButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/pushButton"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
