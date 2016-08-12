@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Push to Parse"
         android:id="@+id/pushButton"
+        android:onClick="openPage"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView" />
 

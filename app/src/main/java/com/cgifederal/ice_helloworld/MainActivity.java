@@ -1,5 +1,6 @@
 package com.cgifederal.ice_helloworld;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -30,9 +31,9 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback{
 
     Button pushButton, readButton;
-    ParseObject testObject, PointOfInterest;
+    ParseObject PointOfInterest;
     private GoogleMap mMap;
-    List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
+    //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
@@ -62,9 +60,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
-
-
-
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     ParseObject.registerSubclass(PointOfInterest.class);
@@ -78,12 +73,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //
             }
         }
-            });
-
-
-
-        testObject = new ParseObject("TestObject");
-        //PointOfInterest = new ParseObject("PointOfInterest");
+    });
 
         pushButton = (Button) findViewById(R.id.pushButton);
         readButton = (Button) findViewById(R.id.readButton);
@@ -97,30 +87,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        //float val1 = testObject.get()
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
+    public void openPage(View view){
+        Intent intent = new Intent(this, SecondaryPage.class);
+        startActivity(intent);
+    }
+
     public void onClick(View v){
         switch(v.getId()){
-            case R.id.pushButton:
-                testObject.put("foo", "bar");
-                testObject.saveInBackground();
-                Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_SHORT);
-                myToast.show();
-                break;
             case R.id.readButton:
-                /*String retStr = "hello";
-                Boolean test = testObject.has("PointOfInterest");
-                if(test){
-                    retStr = "true";
-                }
-                else{
-                    retStr = "false";
-                }
-                //ParseObject newObject = testObject.getParseObject("PointOfInterest");
-                com.cgifederal.ice_helloworld.PointOfInterest poop = parseObjects.get(0);*/
                 String location = PointOfInterest.getString("location");
                 String[] latlng = location.split(",");
                 float lat = Float.parseFloat(latlng[0]);
