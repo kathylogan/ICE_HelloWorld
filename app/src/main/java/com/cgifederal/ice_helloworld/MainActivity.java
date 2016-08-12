@@ -75,10 +75,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     });
 
-        pushButton = (Button) findViewById(R.id.pushButton);
+        //pushButton = (Button) findViewById(R.id.pushButton);
         readButton = (Button) findViewById(R.id.readButton);
 
-        pushButton.setOnClickListener(this);
+        //pushButton.setOnClickListener(this);
         readButton.setOnClickListener(this);
     }
 

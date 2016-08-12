@@ -46,6 +46,8 @@ public class SecondaryPage extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary_page);
 
+        Intent intent = getIntent();
+
         pushCheckButton = (Button) findViewById(R.id.pushCheckButton);
         smileButton = (ImageButton) findViewById(R.id.btImage4);
 
