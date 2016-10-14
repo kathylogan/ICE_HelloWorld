@@ -68,8 +68,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         pushButton = (Button) findViewById(R.id.pushButton);
         readButton = (Button) findViewById(R.id.readButton);
 
-        pushButton.setOnClickListener(this);
-        readButton.setOnClickListener(this);
+        pushButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testObject.put("foo", "bar");
+                testObject.saveInBackground();
+                Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_LONG);
+                myToast.show();
+            }
+        });
+        readButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String retStr = testObject.getString("foo");
+                Toast myToast2 = Toast.makeText(getApplicationContext(), retStr, Toast.LENGTH_LONG);
+                myToast2.show();
+            }
+        });
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -80,22 +95,4 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
-
-    public void onClick(View v){
-        switch(v.getId()){
-            case R.id.pushButton:
-                testObject.put("foo", "bar");
-                testObject.saveInBackground();
-                Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_LONG);
-                myToast.show();
-                break;
-            case R.id.readButton:
-                String retStr = testObject.getString("foo");
-                Toast myToast2 = Toast.makeText(getApplicationContext(), retStr, Toast.LENGTH_LONG);
-                myToast2.show();
-                break;
-        }
-    }
-
-
 }
