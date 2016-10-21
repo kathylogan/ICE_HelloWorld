@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
     Button pushButton, readButton;
     ParseObject PointOfInterest;
@@ -62,18 +62,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-    ParseObject.registerSubclass(PointOfInterest.class);
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("PointOfInterest");
-    query.getInBackground("70yRczwa6C", new GetCallback<ParseObject>(){
-        public void done(ParseObject object, ParseException e){
-            if (e == null){
-                PointOfInterest = object;
+        ParseObject.registerSubclass(PointOfInterest.class);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("PointOfInterest");
+        query.getInBackground("70yRczwa6C", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    PointOfInterest = object;
+                } else {
+                    //
+                }
             }
-            else{
-                //
-            }
-        }
-    });
+        });
 
         pushButton = (Button) findViewById(R.id.pushButton);
         readButton = (Button) findViewById(R.id.readButton);
@@ -110,7 +109,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    public void openPage(View view){
+    public void openPage(View view) {
         Intent intent = new Intent(this, SecondaryPage.class);
         startActivity(intent);
     }
