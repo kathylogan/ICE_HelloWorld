@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback{
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
 
     Button pushButton, readButton;
     ParseObject PointOfInterest;
