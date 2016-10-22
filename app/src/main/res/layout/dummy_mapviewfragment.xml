@@ -9,5 +9,6 @@
         android:layout_height="match_parent"
         app:srcCompat="@drawable/map_preview"
         android:id="@+id/imageView"
+        android:scaleType="centerCrop"
         android:adjustViewBounds="false" />
 </LinearLayout>
