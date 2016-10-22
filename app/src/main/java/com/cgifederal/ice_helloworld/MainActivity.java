@@ -64,14 +64,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         ParseObject.registerSubclass(PointOfInterest.class);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PointOfInterest");
+
+        // create a stub object, then replace it if we can connect to Parse
+        PointOfInterest = ParseObject.create("PointOfInterest");
+        PointOfInterest.put("location", "12,12");
+        PointOfInterest.put("name", "Sample Point - error connecting to Parse");
         query.getInBackground("70yRczwa6C", new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     PointOfInterest = object;
                 } else {
-                    PointOfInterest = ParseObject.create("PointOfInterest");
-                    PointOfInterest.put("location", "12,12");
-                    PointOfInterest.put("name", "Sample Point - error connecting to Parse");
+                    // TODO: handle error
                 }
             }
         });
@@ -96,7 +99,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng test = new LatLng(lat, lng);
                 mMap.addMarker(new MarkerOptions().position(test).title(PointOfInterest.getString("name")));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
-                Toast myToast2 = Toast.makeText(getApplicationContext(), location, Toast.LENGTH_LONG);
+                Toast myToast2 = Toast.makeText(getApplicationContext(), PointOfInterest.getString("name"), Toast.LENGTH_LONG);
                 myToast2.show();
             }
         });
