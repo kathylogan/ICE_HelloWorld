@@ -1,9 +1,6 @@
 #.idea folder
 .idea/
 
-#map api--to be removed once a centralized api key is created
-app/src/main/res/values/google_maps_api.xml
-
 # Built application files
 /*/build/
 /build

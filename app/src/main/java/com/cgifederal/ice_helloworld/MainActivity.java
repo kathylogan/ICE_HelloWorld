@@ -31,8 +31,8 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
     Button pushButton, readButton;
-    ParseObject PointOfInterest;
-    private GoogleMap mMap;
+    public ParseObject PointOfInterest;
+    public GoogleMap mMap;
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
 
     @Override
@@ -69,7 +69,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if (e == null) {
                     PointOfInterest = object;
                 } else {
-                    //
+                    PointOfInterest = ParseObject.create("PointOfInterest");
+                    PointOfInterest.put("location", "12,12");
+                    PointOfInterest.put("name", "Sample Point - error connecting to Parse");
                 }
             }
         });
