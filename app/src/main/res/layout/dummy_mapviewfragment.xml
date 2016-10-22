@@ -12,3 +12,4 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="false" />
 </LinearLayout>
+<!-- @see http://stackoverflow.com/a/27324427 -->
