@@ -51,6 +51,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cgifederal.ice_helloworld.EventListActivity" />
         </activity>
+        <activity
+            android:name=".SecondaryPage"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

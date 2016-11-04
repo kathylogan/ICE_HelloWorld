@@ -30,7 +30,7 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    Button pushButton, readButton;
+    Button readButton;
     public ParseObject PointOfInterest;
     public GoogleMap mMap;
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
@@ -79,16 +79,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        pushButton = (Button) findViewById(R.id.pushButton);
         readButton = (Button) findViewById(R.id.readButton);
-
-
-        pushButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: add logic for click handler
-            }
-        });
         readButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +105,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
+    /**
+     * Click handler for "Push to Parse" button
+     * @param view
+     */
     public void openPage(View view) {
         Intent intent = new Intent(this, SecondaryPage.class);
         startActivity(intent);
