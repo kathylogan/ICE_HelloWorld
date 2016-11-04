@@ -8,7 +8,8 @@
         android:text="Details Example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/detailsButton" />
+        android:id="@+id/detailsButton"
+        android:onClick="openPage" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +38,6 @@
         android:layout_height="wrap_content"
         android:text="Push to Parse"
         android:id="@+id/pushButton"
-        android:onClick="openPage"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView" />
 

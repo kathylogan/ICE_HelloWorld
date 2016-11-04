@@ -1,26 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Push and check"
-        android:id="@+id/pushCheckButton"
-        android:layout_gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="142dp"
-        android:onClick="pushAndCheck" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-    <ImageButton
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:id="@+id/btImage4"
-        android:background="@drawable/smile"
-        android:layout_below="@+id/pushCheckButton"
-        android:layout_alignStart="@+id/pushCheckButton"
-        android:layout_marginTop="135dp"
-        android:onClick="smileyHandler" />
+        <RelativeLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Brownfield"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/featureName"
+                android:layout_alignBaseline="@+id/unfollowButton"
+                android:layout_alignBottom="@+id/unfollowButton"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp" />
+
+            <Button
+                android:text="Follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/followButton"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:text="Unfollow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/unfollowButton"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:text="Berry Lane Property 5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pointOfInterestName"
+            android:layout_margin="20dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/eventBody"
+            android:text="EPA has selected the Jersey City Redevelopment Agency for three brownfields cleanup grants. Hazardous substances..."
+            android:layout_margin="20dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Push and check"
+                android:id="@+id/pushCheckButton"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="142dp"
+                android:onClick="pushAndCheck" />
+
+            <ImageButton
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:id="@+id/btImage4"
+                android:background="@drawable/smile"
+                android:layout_marginTop="135dp"
+                android:onClick="smileyHandler"
+                android:layout_below="@+id/pushCheckButton"
+                android:layout_alignEnd="@+id/pushCheckButton" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
