@@ -48,7 +48,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/dummy_point_of_interest"
+            android:src="@drawable/dummy_point_of_interest"
             android:id="@+id/poiProfile"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
