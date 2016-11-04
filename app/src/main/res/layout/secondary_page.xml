@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:text="Brownfield"
+                android:text="[Feature Name]"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/featureName"
@@ -45,7 +45,7 @@
         </RelativeLayout>
 
         <TextView
-            android:text="Berry Lane Property 5"
+            android:text="[Point of Interest]"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pointOfInterestName"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/eventBody"
-            android:text="EPA has selected the Jersey City Redevelopment Agency for three brownfields cleanup grants. Hazardous substances..."
+            android:text="[Event Body]"
             android:layout_margin="20dp" />
 
         <RelativeLayout

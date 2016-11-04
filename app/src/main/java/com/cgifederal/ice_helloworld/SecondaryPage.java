@@ -1,37 +1,15 @@
 package com.cgifederal.ice_helloworld;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Point;
-import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ayush on 8/12/2016.
@@ -44,6 +22,14 @@ public class SecondaryPage extends Activity {
         setContentView(R.layout.secondary_page);
 
         Intent intent = getIntent();
+        // set data based on Parse record
+        TextView featureName = (TextView) findViewById(R.id.featureName);
+        featureName.setText("Brownfield");
+        TextView pointOfInterestName = (TextView) findViewById(R.id.pointOfInterestName);
+        pointOfInterestName.setText("Berry Lane Property 5");
+        TextView eventBody = (TextView) findViewById(R.id.eventBody);
+        eventBody.setText("EPA has selected the Jersey City Redevelopment Agency for three brownfields cleanup grants. Hazardous substances...");
+
 
         testObject = new ParseObject("TestObject");
     }

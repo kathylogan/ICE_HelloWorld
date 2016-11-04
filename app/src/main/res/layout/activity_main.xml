@@ -28,7 +28,6 @@
         class = "com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/pushButton"
         tools:layout="@layout/dummy_mapviewfragment" />
@@ -38,8 +37,7 @@
         android:layout_height="wrap_content"
         android:text="Push to Parse"
         android:id="@+id/pushButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_alignParentBottom="true" />
 
     <Button
         android:layout_width="wrap_content"
