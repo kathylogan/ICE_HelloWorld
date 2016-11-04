@@ -30,7 +30,6 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    Button readButton;
     public ParseObject PointOfInterest;
     public GoogleMap mMap;
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
@@ -78,22 +77,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
-        readButton = (Button) findViewById(R.id.readButton);
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String location = PointOfInterest.getString("location");
-                String[] latlng = location.split(",");
-                float lat = Float.parseFloat(latlng[0]);
-                float lng = Float.parseFloat(latlng[1]);
-                LatLng test = new LatLng(lat, lng);
-                mMap.addMarker(new MarkerOptions().position(test).title(PointOfInterest.getString("name")));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
-                Toast myToast2 = Toast.makeText(getApplicationContext(), PointOfInterest.getString("name"), Toast.LENGTH_LONG);
-                myToast2.show();
-            }
-        });
     }
 
     public void onMapReady(GoogleMap googleMap) {
@@ -112,5 +95,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void openPage(View view) {
         Intent intent = new Intent(this, SecondaryPage.class);
         startActivity(intent);
+    }
+
+    /**
+     * Click handler for "Read from Parse" button
+     */
+    public void readFromParse(View view) {
+        String location = PointOfInterest.getString("location");
+        String[] latlng = location.split(",");
+        float lat = Float.parseFloat(latlng[0]);
+        float lng = Float.parseFloat(latlng[1]);
+        LatLng test = new LatLng(lat, lng);
+        mMap.addMarker(new MarkerOptions().position(test).title(PointOfInterest.getString("name")));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
+        Toast myToast2 = Toast.makeText(getApplicationContext(), PointOfInterest.getString("name"), Toast.LENGTH_LONG);
+        myToast2.show();
     }
 }

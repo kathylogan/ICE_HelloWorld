@@ -47,7 +47,8 @@
         android:text="Read From Parse"
         android:id="@+id/readButton"
         android:layout_alignTop="@+id/pushButton"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="readFromParse" />
 
 </RelativeLayout></LinearLayout>
 
