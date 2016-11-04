@@ -11,7 +11,8 @@
         android:layout_gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="142dp" />
+        android:layout_marginTop="142dp"
+        android:onClick="pushAndCheck" />
 
     <ImageButton
         android:layout_width="140dp"
@@ -20,5 +21,6 @@
         android:background="@drawable/smile"
         android:layout_below="@+id/pushCheckButton"
         android:layout_alignStart="@+id/pushCheckButton"
-        android:layout_marginTop="135dp" />
+        android:layout_marginTop="135dp"
+        android:onClick="smileyHandler" />
 </RelativeLayout>

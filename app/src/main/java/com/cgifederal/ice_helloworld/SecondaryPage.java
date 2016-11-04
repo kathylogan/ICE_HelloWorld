@@ -36,10 +36,7 @@ import java.util.List;
 /**
  * Created by Ayush on 8/12/2016.
  */
-public class SecondaryPage extends Activity implements View.OnClickListener {
-
-    Button pushCheckButton;
-    ImageButton smileButton;
+public class SecondaryPage extends Activity {
     ParseObject testObject;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,37 +45,36 @@ public class SecondaryPage extends Activity implements View.OnClickListener {
 
         Intent intent = getIntent();
 
-        pushCheckButton = (Button) findViewById(R.id.pushCheckButton);
-        smileButton = (ImageButton) findViewById(R.id.btImage4);
-
-        pushCheckButton.setOnClickListener(this);
-        smileButton.setOnClickListener(this);
-
         testObject = new ParseObject("TestObject");
     }
 
-    public void onClick(View v){
-        switch(v.getId()) {
-            case R.id.pushCheckButton:
-                testObject.put("foo", "bar");
-                testObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_SHORT);
-                            myToast.show();
-                        }
-                        else{
-                            Toast myToast = Toast.makeText(getApplicationContext(), "Error " + e, Toast.LENGTH_LONG);
-                            myToast.show();
-                        }
-                    }
-                });
+    /**
+     * Click handler for "Push and Check" button
+     * @param view
+     */
+    public void pushAndCheck(View view) {
+        testObject.put("foo", "bar");
+        testObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_SHORT);
+                    myToast.show();
+                }
+                else{
+                    Toast myToast = Toast.makeText(getApplicationContext(), "Error " + e, Toast.LENGTH_LONG);
+                    myToast.show();
+                }
+            }
+        });
+    }
 
-                break;
-            case R.id.btImage4:
-                Toast myToast = Toast.makeText(getApplicationContext(), "WE MADE IT 8/12/2016 AYUSH ROHATGI & THE ICE MOFOS WOOHOO", Toast.LENGTH_LONG);
-                myToast.show();
-        }
+    /**
+     * Click handler for Smiley Face image
+     * @param view
+     */
+    public void smileyHandler(View view) {
+        Toast myToast = Toast.makeText(getApplicationContext(), "WE MADE IT 8/12/2016 AYUSH ROHATGI & THE ICE MOFOS WOOHOO", Toast.LENGTH_LONG);
+        myToast.show();
     }
 }
