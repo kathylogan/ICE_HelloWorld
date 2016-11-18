@@ -21,6 +21,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -41,7 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     public ParseObject PointOfInterest;
     public GoogleMap mMap;
@@ -162,6 +165,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     // This number in extremely low, and should be used only for debug
     private final int UPDATE_INTERVAL =  1000;
     private final int FASTEST_INTERVAL = 900;
+    // production values
+    //private final int UPDATE_INTERVAL =  3 * 60 * 1000; // 3 minutes
+    //private final int FASTEST_INTERVAL = 30 * 1000;  // 30 secs
 
     // Start location Updates
     private void startLocationUpdates(){
@@ -186,6 +192,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private void writeActualLocation(Location location) {
         textLat.setText(Double.toString(location.getLatitude()));
         textLong.setText(Double.toString(location.getLongitude()));
+        markerLocation(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
     private void writeLastLocation() {
@@ -253,13 +260,65 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Log.w(TAG, "onConnectionFailed()");
     }
 
+    // Callback called when Map is ready
+    @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG, "onMapReady()");
         mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+        mMap.setOnMarkerClickListener(this);
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    // Callback called when Map is touched
+    @Override
+    public void onMapClick(LatLng latLng) {
+        Log.d(TAG, "onMapClick("+latLng +")");
+        markerForGeofence(latLng);
+    }
+
+    private Marker locationMarker;
+    // Create a Location Marker
+    private void markerLocation(LatLng latLng) {
+        Log.i(TAG, "markerLocation("+latLng+")");
+        String title = latLng.latitude + ", " + latLng.longitude;
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(title);
+        if ( mMap!=null ) {
+            // Remove the anterior marker
+            if ( locationMarker != null )
+                locationMarker.remove();
+            locationMarker = mMap.addMarker(markerOptions);
+            float zoom = 14f;
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+            mMap.animateCamera(cameraUpdate);
+        }
+    }
+
+    private Marker geoFenceMarker;
+    // Create a marker for the geofence creation
+    private void markerForGeofence(LatLng latLng) {
+        Log.i(TAG, "markerForGeofence("+latLng+")");
+        String title = latLng.latitude + ", " + latLng.longitude;
+        // Define marker options
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                .title(title);
+        if ( mMap!=null ) {
+            // Remove last geoFenceMarker
+            if (geoFenceMarker != null)
+                geoFenceMarker.remove();
+
+            geoFenceMarker = mMap.addMarker(markerOptions);
+        }
+    }
+
+    // Callback called when Marker is touched
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d(TAG, "onMarkerClickListener: " + marker.getPosition() );
+        return false;
     }
 
     /**
