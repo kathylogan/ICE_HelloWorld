@@ -184,8 +184,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     // Write location coordinates on UI
     private void writeActualLocation(Location location) {
-        textLat.setText( "Lat: " + location.getLatitude() );
-        textLong.setText( "Long: " + location.getLongitude() );
+        textLat.setText(Double.toString(location.getLatitude()));
+        textLong.setText(Double.toString(location.getLongitude()));
     }
 
     private void writeLastLocation() {
