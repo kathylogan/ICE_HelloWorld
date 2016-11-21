@@ -80,6 +80,28 @@
             android:layout_centerHorizontal="true"
             tools:layout="@layout/dummy_mapviewfragment" />
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="Create Geofence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/geofence"
+                android:layout_weight="1"
+                android:onClick="startGeofence" />
+
+            <Button
+                android:text="Clear Geofence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/clear"
+                android:layout_weight="1"
+                android:onClick="clearGeofence" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>
