@@ -1,6 +1,7 @@
 package com.cgifederal.ice_helloworld;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -64,6 +65,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private Location lastLocation;
 
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
+
+    private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
+    // Create a Intent send by the notification
+    public static Intent makeNotificationIntent(Context context, String msg) {
+        Intent intent = new Intent( context, MainActivity.class );
+        intent.putExtra( NOTIFICATION_MSG, msg );
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
