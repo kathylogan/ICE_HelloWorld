@@ -1,5 +1,6 @@
 package com.cgifederal.ice_helloworld;
 
+import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -471,6 +472,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(test).title(PointOfInterest.getString("name")));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
         Toast myToast2 = Toast.makeText(getApplicationContext(), PointOfInterest.getString("name"), Toast.LENGTH_LONG);
-        myToast2.show();
+        //myToast2.show();
+
+        // show a dialog when a fence has been entered
+        DialogFragment dialog = new GeoFenceDialogFragment();
+        dialog.show(getFragmentManager(), "fenceEnteredTag");
     }
 }
