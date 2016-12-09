@@ -1,7 +1,9 @@
 package com.cgifederal.ice_helloworld;
 
 import android.app.DialogFragment;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -471,11 +474,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng test = new LatLng(lat, lng);
         mMap.addMarker(new MarkerOptions().position(test).title(PointOfInterest.getString("name")));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(test));
-        Toast myToast2 = Toast.makeText(getApplicationContext(), PointOfInterest.getString("name"), Toast.LENGTH_LONG);
-        //myToast2.show();
 
-        // show a dialog when a fence has been entered
+        // TODO only trigger dialog/notification when entering a fence
+
+        // show a dialog indicating a fence has been breached
+        // TODO only use a Dialog when the app is open
         DialogFragment dialog = new GeoFenceDialogFragment();
         dialog.show(getFragmentManager(), "fenceEnteredTag");
+
+        // send a notification which will open the app
+        // TODO only use Notification when app is running in background
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
+                        .setContentTitle("EPA Geofence")
+                        .setContentText("You have entered the Brownsville cleanup site!");
+
+        // start the app when notification followed
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        // return home when backing out of notification
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainActivity.class)
+                    .addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(1, mBuilder.build());
     }
 }
