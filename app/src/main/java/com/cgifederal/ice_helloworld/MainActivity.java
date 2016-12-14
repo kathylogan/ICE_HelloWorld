@@ -84,16 +84,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        // Add your initialization code here
-        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId("geofence-ice")
-                .clientKey("ekcjg9376mcnri")
-                .server("http://geofence-ice.herokuapp.com/parse")
-                .build());
-
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         // Optionally enable public read access.
