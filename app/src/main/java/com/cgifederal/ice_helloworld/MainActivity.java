@@ -70,14 +70,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
 
-    private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
-    // Create a Intent send by the notification
-    public static Intent makeNotificationIntent(Context context, String msg) {
-        Intent intent = new Intent( context, MainActivity.class );
-        intent.putExtra( NOTIFICATION_MSG, msg );
-        return intent;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -450,6 +442,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public void openPage(View view) {
         Intent intent = new Intent(this, SecondaryPage.class);
+        intent.putExtra(Intent.EXTRA_TEXT, "xQorpb2bSu");
         startActivity(intent);
     }
 

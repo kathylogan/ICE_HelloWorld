@@ -1,6 +1,7 @@
 package com.cgifederal.ice_helloworld;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -17,11 +18,21 @@ import com.parse.SaveCallback;
 public class SecondaryPage extends Activity {
     ParseObject testObject;
 
+    private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
+    // Create a Intent send by the notification
+    public static Intent makeNotificationIntent(Context context, String msg, String pointOfInterestId) {
+        Intent intent = new Intent(context, SecondaryPage.class);
+        intent.putExtra(NOTIFICATION_MSG, msg);
+        intent.putExtra(Intent.EXTRA_TEXT, pointOfInterestId);
+        return intent;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary_page);
 
         Intent intent = getIntent();
+        String pointOfInterestId = intent.getStringExtra(Intent.EXTRA_TEXT);
         // set data based on Parse record
         TextView featureName = (TextView) findViewById(R.id.featureName);
         featureName.setText("Brownfield");

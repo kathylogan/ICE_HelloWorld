@@ -57,7 +57,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
             // Create a detail message with Geofences received
             String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences );
             // Send notification details as a String
-            sendNotification( geofenceTransitionDetails );
+            String pointOfInterestId = "xQorpb2bSu";
+            sendNotification(geofenceTransitionDetails, pointOfInterestId);
         }
     }
 
@@ -78,16 +79,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
     }
 
     // Send a notification
-    private void sendNotification( String msg ) {
+    private void sendNotification(String msg, String pointOfInterestId) {
         Log.i(TAG, "sendNotification: " + msg );
 
         // Intent to start the main Activity
-        Intent notificationIntent = MainActivity.makeNotificationIntent(
-                getApplicationContext(), msg
-        );
+        Intent notificationIntent = SecondaryPage.makeNotificationIntent(getApplicationContext(), msg, pointOfInterestId);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(SecondaryPage.class);
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
