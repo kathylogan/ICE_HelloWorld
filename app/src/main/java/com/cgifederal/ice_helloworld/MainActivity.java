@@ -60,7 +60,7 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
-    public ParseObject PointOfInterest;
+    public List<ParseObject> poiList = new ArrayList<ParseObject>();
     public GoogleMap mMap;
     private TextView textLat, textLong;
     // variables needed for GoogleApiClient
@@ -90,16 +90,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         ParseObject.registerSubclass(PointOfInterest.class);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("PointOfInterest");
 
-        // create a stub object, then replace it if we can connect to Parse
-        PointOfInterest = ParseObject.create("PointOfInterest");
-        PointOfInterest.put("location", "12,12");
-        PointOfInterest.put("name", "Sample Point - error connecting to Parse");
-        query.getInBackground("70yRczwa6C", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
+        // get all points of interest from Parse (default limit is 100)
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
                 if (e == null) {
-                    PointOfInterest = object;
+                    System.out.println("retrieved "+scoreList.size()+" object(s) from Parse");
+                    poiList.addAll(scoreList);
                 } else {
-                    // TODO: handle error
+                    System.err.println("error querying Parse!");
                 }
             }
         });
@@ -450,6 +448,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      * Click handler for "Read from Parse" button
      */
     public void readFromParse(View view) {
+        // use first element from points list
+        ParseObject PointOfInterest = poiList.get(0);
         String location = PointOfInterest.getString("location");
         String[] latlng = location.split(",");
         float lat = Float.parseFloat(latlng[0]);
