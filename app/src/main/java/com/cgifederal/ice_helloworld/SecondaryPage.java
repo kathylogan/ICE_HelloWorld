@@ -19,7 +19,6 @@ import com.parse.GetCallback;
  */
 public class SecondaryPage extends Activity {
     PointOfInterest testObject;
-    PointOfInterest replyObject;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
     // Create a Intent send by the notification
@@ -34,83 +33,33 @@ public class SecondaryPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary_page);
 
-        testObject = new PointOfInterest();
-        replyObject = new PointOfInterest();
-        testObject.put("Feature", "Test Feature Name");
-        testObject.setFeature("The Feature Name");
-        testObject.put("pointOfInterestName", "Point of Interest Name");
-        testObject.put("eventBody", "Test Event Body");
-
-        String objectId = testObject.getID();
+        Intent intent = getIntent();
+        String pointOfInterestId = intent.getStringExtra(Intent.EXTRA_TEXT);
+        // set data based on Parse record
 
         ParseQuery<PointOfInterest> query = new ParseQuery("PointOfInterest");
-         query.getInBackground(objectId, new GetCallback<PointOfInterest>() {
+         query.getInBackground(pointOfInterestId, new GetCallback<PointOfInterest>() {
              public void done(PointOfInterest object, ParseException e) {
                  if (e == null) {
-                     replyObject.put("Feature", object.getFeature());
-                     replyObject.setFeature(object.getFeature());
-                     updateObject(replyObject);
+                     updateObject(object);
                  } else {
                      //NULL;
                  }
              }
          });
-
-        Intent intent = getIntent();
-        String pointOfInterestId = intent.getStringExtra(Intent.EXTRA_TEXT);
-        // set data based on Parse record
-
     }
 
     protected void updateObject(PointOfInterest object) {
         setContentView(R.layout.secondary_page);
-        String fName = replyObject.getFeature();
-        String pName = object.getString("pointOfInterestName");
-        String eBody = object.getString("eventBody");
+        String fName = "Brownfield";
+        String pName = object.getString("name");
+        String eBody = object.getString("community_description");
 
         TextView featureName = (TextView) findViewById(R.id.featureName);
-        //featureName.setText("Brownfield");
         featureName.setText(fName);
         TextView pointOfInterestName = (TextView) findViewById(R.id.pointOfInterestName);
-        //pointOfInterestName.setText("Berry Lane Property 5");
-        pointOfInterestName.setText(replyObject.getString("pointOfInterestName"));
+        pointOfInterestName.setText(pName);
         TextView eventBody = (TextView) findViewById(R.id.eventBody);
-        //eventBody.setText("EPA has selected the Jersey City Redevelopment Agency for three brownfields cleanup grants. Hazardous substances...");
         eventBody.setText(eBody);
-
-        //testObject = new ParseObject("TestObject");
-    }
-
-
-     
-
-    /**
-     * Click handler for "Push and Check" button
-     * @param view
-     */
-    public void pushAndCheck(View view) {
-        testObject.put("foo", "bar");
-        testObject.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    Toast myToast = Toast.makeText(getApplicationContext(), "posted to server", Toast.LENGTH_SHORT);
-                    myToast.show();
-                }
-                else{
-                    Toast myToast = Toast.makeText(getApplicationContext(), "Error " + e, Toast.LENGTH_LONG);
-                    myToast.show();
-                }
-            }
-        });
-    }
-
-    /**
-     * Click handler for Smiley Face image
-     * @param view
-     */
-    public void smileyHandler(View view) {
-        Toast myToast = Toast.makeText(getApplicationContext(), "WE MADE IT 8/12/2016 AYUSH ROHATGI & THE ICE MOFOS WOOHOO", Toast.LENGTH_LONG);
-        myToast.show();
     }
 }

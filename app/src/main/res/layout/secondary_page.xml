@@ -244,33 +244,6 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#c0c0c0"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Push and check"
-                android:id="@+id/pushCheckButton"
-                android:layout_gravity="center_vertical"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="142dp"
-                android:onClick="pushAndCheck" />
-
-            <ImageButton
-                android:layout_width="140dp"
-                android:layout_height="50dp"
-                android:id="@+id/btImage4"
-                android:background="@drawable/smile"
-                android:layout_marginTop="135dp"
-                android:onClick="smileyHandler"
-                android:layout_below="@+id/pushCheckButton"
-                android:layout_alignEnd="@+id/pushCheckButton" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 
