@@ -285,7 +285,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapClick(LatLng latLng) {
         Log.d(TAG, "onMapClick("+latLng +")");
-        markerForGeofence(latLng);
     }
 
     private Marker locationMarker;
