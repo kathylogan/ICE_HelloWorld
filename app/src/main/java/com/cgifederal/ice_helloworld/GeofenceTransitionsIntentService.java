@@ -57,7 +57,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
             // Create a detail message with Geofences received
             String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences );
             // Send notification details as a String
-            String pointOfInterestId = "xQorpb2bSu";
+            String pointOfInterestId = triggeringGeofences.get(0).getRequestId();
             sendNotification(geofenceTransitionDetails, pointOfInterestId);
         }
     }

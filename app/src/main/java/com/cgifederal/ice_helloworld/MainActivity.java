@@ -61,6 +61,8 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
     public List<ParseObject> poiList = new ArrayList<ParseObject>();
+    public List<Geofence> geofenceList = new ArrayList<Geofence>();
+
     public GoogleMap mMap;
     private TextView textLat, textLong;
     // variables needed for GoogleApiClient
@@ -96,6 +98,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 if (e == null) {
                     System.out.println("retrieved "+scoreList.size()+" object(s) from Parse");
                     poiList.addAll(scoreList);
+
+                    // add geofences
+                    for (ParseObject poi: scoreList) {
+                        String[] locationParts = poi.getString("location").split(",");
+                        markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
+                        Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
+                        geofenceList.add(geofence);
+                        GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
+                        addGeofence( geofenceRequest );
+                    }
                 } else {
                     System.err.println("error querying Parse!");
                 }
@@ -308,10 +320,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 .title(title);
         if ( mMap!=null ) {
-            // Remove last geoFenceMarker
-            if (geoFenceMarker != null)
-                geoFenceMarker.remove();
-
             geoFenceMarker = mMap.addMarker(markerOptions);
         }
     }
@@ -324,14 +332,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
     private static final float GEOFENCE_RADIUS = 500.0f; // in meters
 
     // Create a Geofence
-    private Geofence createGeofence(LatLng latLng, float radius ) {
+    private Geofence createGeofence(LatLng latLng, float radius, String pointOfInterestId) {
         Log.d(TAG, "createGeofence");
         return new Geofence.Builder()
-                .setRequestId(GEOFENCE_REQ_ID)
+                .setRequestId(pointOfInterestId)
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
                 .setExpirationDuration( GEO_DURATION )
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
@@ -386,9 +393,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private void drawGeofence() {
         Log.d(TAG, "drawGeofence()");
 
-        if ( geoFenceLimits != null )
-            geoFenceLimits.remove();
-
         CircleOptions circleOptions = new CircleOptions()
                 .center( geoFenceMarker.getPosition())
                 .strokeColor(Color.argb(50, 70,70,70))
@@ -401,7 +405,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void startGeofence(View view) {
         Log.i(TAG, "startGeofence()");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
+            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, "My Geofence");
             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
             addGeofence( geofenceRequest );
         } else {
@@ -462,7 +466,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // show a dialog indicating a fence has been breached
         // TODO only use a Dialog when the app is open
-        DialogFragment dialog = new GeoFenceDialogFragment();
+        DialogFragment dialog = new GeoFenceDialogFragment(PointOfInterest);
         dialog.show(getFragmentManager(), "fenceEnteredTag");
 
         // send a notification which will open the app
