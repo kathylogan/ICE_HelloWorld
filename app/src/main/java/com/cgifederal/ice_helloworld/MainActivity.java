@@ -61,7 +61,6 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback<Status> {
 
     public List<ParseObject> poiList = new ArrayList<ParseObject>();
-    public List<Geofence> geofenceList = new ArrayList<Geofence>();
 
     public GoogleMap mMap;
     private TextView textLat, textLong;
@@ -104,7 +103,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         String[] locationParts = poi.getString("location").split(",");
                         markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
                         Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
-                        geofenceList.add(geofence);
                         GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
                         addGeofence( geofenceRequest );
                     }

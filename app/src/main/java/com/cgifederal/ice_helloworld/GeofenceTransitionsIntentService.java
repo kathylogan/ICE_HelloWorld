@@ -29,7 +29,7 @@ import java.util.List;
 public class GeofenceTransitionsIntentService extends IntentService {
 
     private static final String TAG = GeofenceTransitionsIntentService.class.getSimpleName();
-    public static final int GEOFENCE_NOTIFICATION_ID = 0;
+    public int notificationId = 0;
 
     public GeofenceTransitionsIntentService() {
         super(TAG);
@@ -94,7 +94,7 @@ public class GeofenceTransitionsIntentService extends IntentService {
         NotificationManager notificatioMng =
                 (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE );
         notificatioMng.notify(
-                GEOFENCE_NOTIFICATION_ID,
+                notificationId++,
                 createNotification(msg, notificationPendingIntent));
     }
 
