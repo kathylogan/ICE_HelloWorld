@@ -68,6 +68,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = MainActivity.class.getSimpleName();
     private GoogleApiClient googleApiClient;
     private Location lastLocation;
+    private boolean isFencesLoaded = false;
 
     //List<PointOfInterest> parseObjects = new ArrayList<PointOfInterest>();
 
@@ -98,13 +99,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     System.out.println("retrieved "+scoreList.size()+" object(s) from Parse");
                     poiList.addAll(scoreList);
 
-                    // add geofences
-                    for (ParseObject poi: scoreList) {
-                        String[] locationParts = poi.getString("location").split(",");
-                        markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
-                        Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
-                        GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
-                        addGeofence( geofenceRequest );
+                    if (googleApiClient.isConnected()) {
+                        // remove previous geofences
+                        LocationServices.GeofencingApi.removeGeofences(googleApiClient, createGeofencePendingIntent());
+
+                        // add geofences
+                        for (ParseObject poi: scoreList) {
+                            String[] locationParts = poi.getString("location").split(",");
+                            markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
+                            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
+                            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
+                            addGeofence( geofenceRequest );
+                        }
+                        isFencesLoaded = true;
                     }
                 } else {
                     System.err.println("error querying Parse!");
@@ -151,6 +158,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "onConnected()");
         getLastKnownLocation();
+
+        if (!isFencesLoaded) {
+            // remove previous geofences
+            LocationServices.GeofencingApi.removeGeofences(googleApiClient, createGeofencePendingIntent());
+
+            // add geofences
+            for (ParseObject poi: poiList) {
+                String[] locationParts = poi.getString("location").split(",");
+                markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
+                Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
+                GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
+                addGeofence( geofenceRequest );
+            }
+        }
     }
 
     // Get last known location
