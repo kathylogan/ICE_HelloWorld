@@ -484,7 +484,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // show a dialog indicating a fence has been breached
         // TODO only use a Dialog when the app is open
-        DialogFragment dialog = new GeoFenceDialogFragment(PointOfInterest);
+        DialogFragment dialog = new GeoFenceDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("pointOfInterestId", PointOfInterest.getObjectId());
+        dialog.setArguments(args);
         dialog.show(getFragmentManager(), "fenceEnteredTag");
 
         // send a notification which will open the app

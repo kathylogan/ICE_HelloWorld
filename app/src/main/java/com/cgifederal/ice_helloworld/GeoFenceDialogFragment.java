@@ -15,10 +15,6 @@ public class GeoFenceDialogFragment extends DialogFragment {
 
     public GeoFenceDialogFragment() {
     }
-    // TODO: avoid non-default constructors
-    public GeoFenceDialogFragment(ParseObject poi) {
-        pointOfInterestId = poi.getObjectId();
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,7 +24,7 @@ public class GeoFenceDialogFragment extends DialogFragment {
                 .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getActivity(), SecondaryPage.class);
-                        intent.putExtra(Intent.EXTRA_TEXT, pointOfInterestId);
+                        intent.putExtra(Intent.EXTRA_TEXT, getArguments().getString("pointOfInterestId"));
                         startActivity(intent);
                     }
                 });
