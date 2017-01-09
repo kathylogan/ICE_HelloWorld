@@ -15,6 +15,9 @@ import android.util.Log;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,28 +57,33 @@ public class GeofenceTransitionsIntentService extends IntentService {
                 geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ) {
             // Get the geofence that were triggered
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-            // Create a detail message with Geofences received
-            String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences );
-            // Send notification details as a String
-            String pointOfInterestId = triggeringGeofences.get(0).getRequestId();
-            sendNotification(geofenceTransitionDetails, pointOfInterestId);
+            // get details and send notifications of the fence
+            getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences );
         }
     }
 
     // Create a detail message with Geofences received
-    private String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
-        // get the ID of each geofence triggered
-        ArrayList<String> triggeringGeofencesList = new ArrayList<>();
+    private void getGeofenceTrasitionDetails(final int geoFenceTransition, List<Geofence> triggeringGeofences) {
+        // send notification for each geofence triggered
         for ( Geofence geofence : triggeringGeofences ) {
-            triggeringGeofencesList.add( geofence.getRequestId() );
-        }
 
-        String status = null;
-        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
-            status = "Entering ";
-        else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
-            status = "Exiting ";
-        return status + TextUtils.join( ", ", triggeringGeofencesList);
+            final String pointOfInterestId = triggeringGeofences.get(0).getRequestId();
+
+            ParseQuery<PointOfInterest> query = new ParseQuery("PointOfInterest");
+            query.getInBackground(pointOfInterestId, new GetCallback<PointOfInterest>() {
+                public void done(PointOfInterest object, ParseException e) {
+                    if (e == null) {
+                        final String status;
+                        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
+                            status = "Entering "+object.getString("name");
+                        else // must be exiting
+                            status = "Exiting "+object.getString("name");
+
+                        sendNotification(status, pointOfInterestId);
+                    }
+                }
+            });
+        }
     }
 
     // Send a notification
