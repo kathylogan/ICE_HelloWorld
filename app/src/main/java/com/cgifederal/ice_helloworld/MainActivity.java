@@ -107,7 +107,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         for (ParseObject poi: scoreList) {
                             String[] locationParts = poi.getString("location").split(",");
                             markerForGeofence(new LatLng(Double.parseDouble(locationParts[0]), Double.parseDouble(locationParts[1].trim())));
-                            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getObjectId());
+                            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS, poi.getString("name"));
                             GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
                             addGeofence( geofenceRequest );
                         }
